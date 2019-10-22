@@ -1,4 +1,10 @@
 {
-    "python.pythonPath": "~/env_xxsite/bin/python3.6",
+    "python.pythonPath": "/home/fire/env_xxsite/bin/python3.6",
+    "python.formatting.provider": "yapf", 
+    "python.linting.pylintArgs": [    
+        "--load-plugins",    
+        "pylint_django",  
+    ],
     "python.globalModuleInstallation": true
 }
+
