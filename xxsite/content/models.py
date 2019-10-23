@@ -56,12 +56,18 @@ class SideBar(models.Model):
         (3, "最新文章"),
     )
 
-    title = models.CharField(max_length=50, verbose_name="标题")
+    title = models.CharField(
+        max_length=50, verbose_name="标题",
+        help_text="不填则不显示标题",
+    )
+    does_show_title = models.BooleanField(default=True, verbose_name="是否显示标题")
     sidebar_type = models.PositiveIntegerField(
-        default=1, choices=SIDEBAR_TYPE, verbose_name="展示类型")
+        default=1, choices=SIDEBAR_TYPE, verbose_name="展示类型",
+    )
     content = models.CharField(
         max_length=1024, blank=True, verbose_name="内容",
-        help_text="只有选择 HTML 时才需要填写内容")
+        help_text="只有选择 HTML 时才需要填写内容",
+    )
 
     def __str__(self):
         return self.title
@@ -69,6 +75,33 @@ class SideBar(models.Model):
     class Meta:
         verbose_name = verbose_name_plural = "侧边栏"
 
+
+class IndexContent(models.Model):
+    """ 首页内容区数据结构 """
+    CONTENT_TYPE = (
+        (1, "HTML"),
+        (2, "最热文章"),
+        (3, "最新文章"),
+    )
+
+    title = models.CharField(
+        max_length=50, verbose_name="标题",
+        help_text="不填则不显示标题",
+    )
+    does_show_title = models.BooleanField(default=True, verbose_name="是否显示标题")
+    content_type = models.PositiveIntegerField(
+        default=1, choices=CONTENT_TYPE, verbose_name="展示类型",
+    )
+    content = models.CharField(
+        max_length=1024, blank=True, verbose_name="内容",
+        help_text="只有选择 HTML 时才需要填写内容",
+    )
+
+    def __str__(self):
+        return self.title
+
+    class Meta:
+        verbose_name = verbose_name_plural = "首页内容区"
 
 class Page(models.Model):
     """ 独立页面数据结构 """

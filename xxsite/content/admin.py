@@ -2,7 +2,7 @@ from django.contrib import admin
 
 from .models import (
     Category, Tag, Article,
-    SideBar, Page, Link
+    SideBar, IndexContent, Page, Link
 )
 
 # Register your models here.
@@ -22,6 +22,10 @@ class ArticleAdmin(admin.ModelAdmin):
 
 class SideBarAdmin(admin.ModelAdmin):
     list_display = ('title', 'sidebar_type')
+
+
+class IndexContentAdmin(admin.ModelAdmin):
+    list_display = ('title', 'content_type')
 
 
 class PageAdmin(admin.ModelAdmin):
@@ -47,5 +51,6 @@ admin.site.register(Category)
 admin.site.register(Tag)
 admin.site.register(Article, ArticleAdmin)
 admin.site.register(SideBar, SideBarAdmin)
+admin.site.register(IndexContent, IndexContentAdmin)
 admin.site.register(Page, PageAdmin)
 admin.site.register(Link, LinkAdmin)
