@@ -1,4 +1,7 @@
 from django.db import models
+from django.utils.safestring import mark_safe   # 防止html转义
+from django.template.loader import render_to_string
+
 
 # Create your models here.
 class Category(models.Model):
@@ -40,6 +43,14 @@ class Article(models.Model):
     pv = models.PositiveIntegerField(default=0)
     uv = models.PositiveIntegerField(default=0)
 
+    @classmethod
+    def latest_articles(cls):
+        return cls.objects.all()[:5]
+
+    @classmethod
+    def hotest_articles(cls):
+        return cls.objects.order_by('-pv')[:5]
+
     def __str__(self):
         return self.title
 
@@ -69,6 +80,12 @@ class SideBar(models.Model):
         help_text="只有选择 HTML 时才需要填写内容",
     )
 
+    @property
+    def content_html(self):
+        """
+        直接返回渲染后的HTML内容，以供在模板中直接调用
+        """
+
     def __str__(self):
         return self.title
 
@@ -78,10 +95,13 @@ class SideBar(models.Model):
 
 class IndexContent(models.Model):
     """ 首页内容区数据结构 """
+    CONTENT_HTML = 1
+    CONTENT_HOTEST = 2
+    CONTENT_LATEST = 3
     CONTENT_TYPE = (
-        (1, "HTML"),
-        (2, "最热文章"),
-        (3, "最新文章"),
+        (CONTENT_HTML, "HTML"),
+        (CONTENT_HOTEST, "最热文章"),
+        (CONTENT_LATEST, "最新文章"),
     )
 
     title = models.CharField(
@@ -96,6 +116,35 @@ class IndexContent(models.Model):
         max_length=1024, blank=True, verbose_name="内容",
         help_text="只有选择 HTML 时才需要填写内容",
     )
+
+    @property
+    def content_html(self):
+        """
+        直接返回渲染后的HTML内容，以供在模板中直接调用
+        """
+        if self.content_type == self.CONTENT_HTML:
+            result = mark_safe(self.content)
+        elif self.content_type == self.CONTENT_LATEST:
+            context = {
+                'title': self.title,
+                'show_title': self.does_show_title,
+                'articles': Article.latest_articles()
+            }
+            result = render_to_string('content/articles_list_index.html', context)
+        elif self.content_type == self.CONTENT_HOTEST:
+            context = {
+                'title': self.title,
+                'show_title': self.does_show_title,
+                'articles': Article.hotest_articles()
+            }
+            result = render_to_string('content/articles_list_index.html', context)
+        else:
+            result = "这是非法类型，注意排查数据库是否写入了非法数据"
+        return result
+
+    @classmethod
+    def get_all(cls):
+        return cls.objects.all()
 
     def __str__(self):
         return self.title

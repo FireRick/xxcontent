@@ -1,0 +1,11 @@
+{% if show_title %}
+    <h2>{{ title }}</h2>
+{% endif %}
+<ul>
+{% for article in articles %}
+    <li>
+    <h4>{{ article.title }}</h4>
+    <p>{{ article.desc }}</p>
+    </li>
+{% endfor %}
+</ul>

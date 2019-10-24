@@ -5,6 +5,9 @@
         "--load-plugins",    
         "pylint_django",  
     ],
-    "python.globalModuleInstallation": true
+    "python.globalModuleInstallation": true,
+    "emmet.triggerExpansionOnTab": true,
+    // "editor.snippetSuggestions": "top",
+    // "editor.tabCompletion": "on",
 }
 

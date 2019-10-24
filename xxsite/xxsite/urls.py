@@ -16,6 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path
 
+from content.views import IndexView
+
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', IndexView.as_view(), name='index')
+    # path('category/<int:cat_id>/', ),
+    # path('tag/<int:tag_id>/', ),
+    # path('<title>/', ),
+    # path(r'sitemap.xml', ),
 ]
