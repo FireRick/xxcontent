@@ -154,8 +154,10 @@ class IndexContent(models.Model):
 
 class Page(models.Model):
     """ 独立页面数据结构 """
-    url = models.CharField(
-        max_length=200, verbose_name="URL", help_text="建议使用绝对路径")
+    link_word = models.CharField(
+        max_length=50, verbose_name="URL字符串", help_text="只能使用字母",
+        primary_key=True, unique=True,
+    )
     title = models.CharField(max_length=50, verbose_name="标题")
     author = models.CharField(max_length=10, verbose_name="作者")
     content = models.TextField(verbose_name="正文", help_text="用 markdown 书写")

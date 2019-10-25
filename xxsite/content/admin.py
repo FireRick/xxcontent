@@ -31,7 +31,7 @@ class IndexContentAdmin(admin.ModelAdmin):
 class PageAdmin(admin.ModelAdmin):
     fieldsets = [
         ('页面元数据', {'fields': [
-            'url', 'title', 'author',
+            'link_word', 'title', 'author',
             'create_time', 'update_time', 'does_follow',
         ]}),
         ('摘要和正文', {'fields': [
