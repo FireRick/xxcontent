@@ -15,10 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.contrib.sitemaps.views import sitemap
 
 from content.views import (
     IndexView, ArticleView, CategoryView,
-    TagView, PageView,
+    TagView, PageView, ArticleSitemap,
+    PageSitemap, CategorySitemap,
 )
 
 urlpatterns = [
@@ -28,5 +30,15 @@ urlpatterns = [
     path('tag/<int:tag_id>/', TagView.as_view(), name='tag'),
     path('<link_word>/', PageView.as_view(), name='page'),
     path('article/<pk>/', ArticleView.as_view(), name='article'),
-    # path(r'sitemap.xml', ),
+    path(
+        'sitemap.xml', sitemap, {
+        'sitemaps': {
+            'articles': ArticleSitemap,
+            'page': PageSitemap,
+            'category': CategorySitemap,
+            },
+        'template_name': 'content/sitemap.xml',
+        },
+        name='django.contrib.sitemaps.views.sitemap'
+    ),
 ]

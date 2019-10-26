@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.safestring import mark_safe   # 防止html转义
 from django.template.loader import render_to_string
+# from django.urls import reverse
 
 
 # Create your models here.
@@ -9,6 +10,8 @@ class Category(models.Model):
     name = models.CharField(max_length=50, verbose_name="名称")
     content = models.TextField(verbose_name="分类描述正文")
     desc = models.CharField(max_length=1024, verbose_name="摘要")
+    create_time = models.DateTimeField(verbose_name="创建时间")
+    update_time = models.DateTimeField(verbose_name="更新时间")
 
     def __str__(self):
         return self.name
@@ -22,6 +25,8 @@ class Tag(models.Model):
     name = models.CharField(max_length=50, verbose_name="名称")
     content = models.TextField(verbose_name="标签描述正文")
     desc = models.CharField(max_length=1024, verbose_name="摘要")
+    create_time = models.DateTimeField(verbose_name="创建时间")
+    update_time = models.DateTimeField(verbose_name="更新时间")
 
     def __str__(self):
         return self.name
@@ -43,6 +48,9 @@ class Article(models.Model):
     pv = models.PositiveIntegerField(default=0)
     uv = models.PositiveIntegerField(default=0)
 
+    # def get_absolute_url(self):
+    #     return reverse('article', args=[self.pk])
+
     @classmethod
     def latest_articles(cls):
         return cls.objects.all()[:5]
@@ -61,30 +69,48 @@ class Article(models.Model):
 
 class SideBar(models.Model):
     """ 侧栏数据结构 """
+    SIDEBAR_HTML = 1
+    SIDEBAR_HOTEST = 2
+    SIDEBAR_LATEST = 3
     SIDEBAR_TYPE = (
-        (1, "HTML"),
-        (2, "最热文章"),
-        (3, "最新文章"),
+        (SIDEBAR_HTML, "HTML"),
+        (SIDEBAR_HOTEST, "最热文章"),
+        (SIDEBAR_LATEST, "最新文章"),
     )
 
     title = models.CharField(
-        max_length=50, verbose_name="标题",
-        help_text="不填则不显示标题",
-    )
+        max_length=50, verbose_name="标题", help_text="不填则不显示标题",)
     does_show_title = models.BooleanField(default=True, verbose_name="是否显示标题")
     sidebar_type = models.PositiveIntegerField(
-        default=1, choices=SIDEBAR_TYPE, verbose_name="展示类型",
-    )
+        default=1, choices=SIDEBAR_TYPE, verbose_name="展示类型",)
     content = models.CharField(
         max_length=1024, blank=True, verbose_name="内容",
-        help_text="只有选择 HTML 时才需要填写内容",
-    )
+        help_text="只有选择 HTML 时才需要填写内容",)
 
     @property
     def content_html(self):
         """
         直接返回渲染后的HTML内容，以供在模板中直接调用
         """
+        if self.sidebar_type == self.SIDEBAR_HTML:
+            result = mark_safe(self.content)
+        elif self.sidebar_type == self.SIDEBAR_HOTEST:
+            context = {
+                'title': self.title,
+                'show_title': self.does_show_title,
+                'articles': Article.hotest_articles()
+            }
+            result = render_to_string('content/articles_list_sidebar.html', context)
+        elif self.sidebar_type == self.SIDEBAR_LATEST:
+            context = {
+                'title': self.title,
+                'show_title': self.does_show_title,
+                'articles': Article.latest_articles()
+            }
+            result = render_to_string('content/articles_list_sidebar.html', context)
+        else:
+            result = "这是非法类型，注意排查数据库是否写入了非法数据"
+        return result
 
     def __str__(self):
         return self.title
@@ -124,18 +150,18 @@ class IndexContent(models.Model):
         """
         if self.content_type == self.CONTENT_HTML:
             result = mark_safe(self.content)
-        elif self.content_type == self.CONTENT_LATEST:
-            context = {
-                'title': self.title,
-                'show_title': self.does_show_title,
-                'articles': Article.latest_articles()
-            }
-            result = render_to_string('content/articles_list_index.html', context)
         elif self.content_type == self.CONTENT_HOTEST:
             context = {
                 'title': self.title,
                 'show_title': self.does_show_title,
                 'articles': Article.hotest_articles()
+            }
+            result = render_to_string('content/articles_list_index.html', context)
+        elif self.content_type == self.CONTENT_LATEST:
+            context = {
+                'title': self.title,
+                'show_title': self.does_show_title,
+                'articles': Article.latest_articles()
             }
             result = render_to_string('content/articles_list_index.html', context)
         else:

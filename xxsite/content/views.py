@@ -1,11 +1,13 @@
-from django.shortcuts import render, get_object_or_404
+from django.shortcuts import get_object_or_404
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+from django.contrib.sitemaps import Sitemap
+from django.urls import reverse
 
 from .models import (
     Article, IndexContent, Category,
-    Tag, Page,
+    Tag, Page, SideBar,
 )
 
 # Create your views here.
@@ -15,6 +17,9 @@ class IndexView(TemplateView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['content_blocks'] = IndexContent.get_all()
+        context.update({
+            'sidebars': SideBar.objects.all()
+        })
         return context
 
 
@@ -22,9 +27,6 @@ class ArticleView(DetailView):
     model = Article
     template_name = "content/article.html"
     context_object_name = "article"
-
-    def get_context_data(self, **kwargs):
-        return super().get_context_data(**kwargs)
 
 
 class CategoryView(ListView):
@@ -74,6 +76,44 @@ class PageView(DetailView):
     pk_url_kwarg = "link_word"
     context_object_name = "page"
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        return context
+
+class ArticleSitemap(Sitemap):
+    changefreq = "daily"
+    priority = 0.8
+
+    def items(self):
+        return Article.objects.all()
+
+    def lastmod(self, obj):
+        return obj.update_time
+
+    def location(self, obj):
+        return reverse('article', args=[obj.pk])
+
+
+class PageSitemap(Sitemap):
+    changefreq = "weekly"
+    priority = 0.5
+
+    def items(self):
+        return Page.objects.all()
+
+    def lastmod(self, obj):
+        return obj.update_time
+
+    def location(self, obj):
+        return reverse('page', args=[obj.pk])
+
+
+class CategorySitemap(Sitemap):
+    changefreq = "daily"
+    priority = 0.9
+
+    def items(self):
+        return Category.objects.all()
+
+    def lastmod(self, obj):
+        return obj.update_time
+
+    def location(self, obj):
+        return reverse('category', args=[obj.pk])

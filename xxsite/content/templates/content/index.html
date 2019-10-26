@@ -13,5 +13,12 @@
         <hr>
     {% endfor %}
     </div>
+    <div>
+        <h2>侧边栏内容</h2>
+        {% for sidebar in sidebars %}
+            <div>{{ sidebar.content_html }}</div>
+            <hr>
+        {% endfor %}
+    </div>
 </body>
 </html>
