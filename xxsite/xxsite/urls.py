@@ -20,7 +20,8 @@ from django.contrib.sitemaps.views import sitemap
 from content.views import (
     IndexView, ArticleView, CategoryView,
     TagView, PageView, ArticleSitemap,
-    PageSitemap, CategorySitemap,
+    PageSitemap, CategorySitemap, IndexSitemap,
+    TagSitemap
 )
 
 urlpatterns = [
@@ -33,9 +34,11 @@ urlpatterns = [
     path(
         'sitemap.xml', sitemap, {
         'sitemaps': {
+            'index': IndexSitemap,
+            'category': CategorySitemap,
+            'tag': TagSitemap,
             'articles': ArticleSitemap,
             'page': PageSitemap,
-            'category': CategorySitemap,
             },
         'template_name': 'content/sitemap.xml',
         },

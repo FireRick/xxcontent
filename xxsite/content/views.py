@@ -117,3 +117,31 @@ class CategorySitemap(Sitemap):
 
     def location(self, obj):
         return reverse('category', args=[obj.pk])
+
+
+class TagSitemap(Sitemap):
+    changefreq = "daily"
+    priority = 0.8
+
+    def items(self):
+        return Tag.objects.all()
+
+    def lastmod(self, obj):
+        return obj.update_time
+
+    def location(self, obj):
+        return reverse('tag', args=[obj.pk])
+
+
+class IndexSitemap(Sitemap):
+    changefreq = "daily"
+    priority = 1.0
+
+    def items(self):
+        return [Article.objects.order_by('-update_time')[0]]  # 中括号包裹，形成序列，否则 len() 调用会出错
+
+    def lastmod(self, obj):
+        return obj.update_time
+
+    def location(self, obj):
+        return reverse('index')
