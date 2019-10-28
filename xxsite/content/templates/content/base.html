@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="zh-hans">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>{% block title %}Title{% endblock %}</title>
+    <!-- Bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- HTML5 shim 和 Respond.js 是为了让 IE8 支持 HTML5 元素和媒体查询（media queries）功能 -->
+    <!-- 警告：通过 file:// 协议（就是直接将 html 页面拖拽到浏览器中）访问页面时 Respond.js 不起作用 -->
+    <!--[if lt IE 9]>
+      <script src="https://cdn.jsdelivr.net/npm/html5shiv@3.7.3/dist/html5shiv.min.js"></script>
+      <script src="https://cdn.jsdelivr.net/npm/respond.js@1.4.2/dest/respond.min.js"></script>
+    <![endif]-->
+    <style>
+        body {
+            font-family: -apple-system,BlinkMacSystemFont,Helvetica Neue,PingFang SC,Microsoft YaHei,Source Han Sans SC,Noto Sans CJK SC,WenQuanYi Micro Hei,sans-serif;
+            font-size: 15px;
+            color: #1a1a1a;
+            background-color: #f6f6f6;
+        }
+        .m-header {
+            font-size: 24px;
+            position: relative;
+            padding-top: 60px;
+            padding-bottom: 60px;
+            color: #cdbfe3;
+            text-align: left;
+            text-shadow: 0 1px 0 rgba(0,0,0,.1);
+            background-color: #6f5499;
+            background-image: linear-gradient(to bottom,#563d7c 0,#6f5499 100%);
+            background-repeat: repeat-x;
+        }
+        .m-header h1 {
+            font-size: 60px;
+            line-height: 1;
+            margin-top: 0;
+            color: #fff;
+        }
+        .navbar {margin-bottom: 0px;}
+        .navbar-brand {font-size: 15px;}
+        .breadcrumb {
+            padding: 10px 0 0 0;
+            background-color: transparent;
+            margin-bottom: 0;
+        }
+        .card {
+            background-color: #fff;
+            border-radius: 2px;
+            box-shadow: 0 1px 3px rgba(26,26,26,.1);
+            margin: 10px auto;
+            padding: 10px 16px;
+        }
+        .entry-content, .author, .post-navigation, .m-sidebar>div+div {
+            border-top: 1px solid #f6f6f6;
+        }
+        .entry-header, .entry-content, .author, .post-navigation, .m-sidebar>div {
+            padding: 16px 0;
+        }
+        .m-footer {
+            padding: 50px 0;
+            margin-top: 100px;
+            color: #99979c;
+            text-align: center;
+            background-color: #2a2730;
+        }
+        .test {
+            background-color: #75ca95;
+        }
+    </style>
+</head>
+<body>
+    <header class="m-header">
+        <div class="container">
+            <h1>页头部分</h1>
+            <p>内容部分，加油，做好每一个热点网站，形成一张网</p>
+        </div>
+    </header>
+    <nav class="navbar navbar-default">
+        <div class="container">
+            <!-- Brand and toggle get grouped for better mobile display -->
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="#">首页</a>
+            </div>
+        
+            <!-- Collect the nav links, forms, and other content for toggling -->
+            <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                <li><a href="#">分类一</a></li>
+                <li><a href="#">分类二</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="#">关于网站</a></li>
+            </ul>
+            </div><!-- /.navbar-collapse -->
+        </div><!-- /.container-fluid -->
+    </nav>
+    <div class="container">
+        {% block breadcrumb %}
+            面包屑导航
+        {% endblock %}
+        <div class="m-main"><!-- 页面主体 -->
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-8"><!-- 正文栏框架 -->
+                    <div id="primary" class="content-area">
+                    {% block main %}请填充内容区{% endblock %}
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4"><!-- 侧边栏框架 -->
+                    <aside id="secondary" class="card m-sidebar" role="complementary">
+                        <div id="recent-posts">最新文章组件</div>
+                        <div id="hotest-posts">最热文章组件</div>
+                        <div>其他侧边栏组件</div>
+                    </aside>
+                </div>
+            </div>
+        </div>
+    </div>
+    <footer class="m-footer">页尾部分</footer>
+    <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
+</body>

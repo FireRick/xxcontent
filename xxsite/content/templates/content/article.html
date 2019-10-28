@@ -1,3 +1,42 @@
-<h1>{{ article.title }}</h1>
-<div>{{ article.create_time|date:"Y-m-d" }}</div>
-<div>{{ article.content }}</div>
+{% extends "content/base.html" %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <span>当前位置：</span>
+    <li><a href="{% url 'index' %}">首页</a></li>
+    <li><a href="{% url 'category' article.category_id %}">{{ article.category }}</a></li>
+    <li class="active">{{ article.title }}</li>
+</ol>  
+{% endblock %}
+
+{% block main %}
+<main id="main" class="card site-main">
+    <article id="{{ article.id }}" class="post-{{ article.id }} post">
+        <header class="entry-header">
+            <h1 class="entry-title text-center">{{ article.title }}</h1>
+            <div class="entry-meta text-center"><!-- 时间作者栏目 -->
+                <span class="post-datetime">
+                    发表于
+                    <time class="entry-date published" datetime="{{ article.create_time|date:"c" }}">{{ article.create_time|date:"Y-m-d" }}</time>
+                    最后编辑于
+                    <time class="updated" datetime="{{ article.update_time|date:"c" }}">{{ article.update_time|date:"Y-m-d" }}</time>
+                </span>
+                <span class="byline">
+                    作者：<span class="author-tm">{{ article.author }}</span>
+                </span>
+            </div>
+        </header>
+        <div class="entry-content">
+            {{ article.content }}
+        </div>
+    </article>
+    <div class="author">
+        作者：<a href="http://www.xdjango.com/">{{ article.author }}@django实践之路</a>
+        <br> 
+        原文链接：<a href="#">django实践之路(http://www.xdjango.com/post/1236/)</a>
+        <br>
+        版权声明：转载时必须以链接形式注明作者和原始出处及本声明
+    </div>
+    <nav class="post-navigation" role="navigation">页面导航</nav>
+</main>
+{% endblock %}
