@@ -1,24 +1,20 @@
-<!DOCTYPE html>
-<html lang="zh-hans">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>首页</title>
-</head>
-<body>
-    <div>
+{% extends "content/base.html" %}
+
+{% block title %}
+    Django实践之路
+{% endblock title %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <span>当前位置：</span>
+    <li class="active">首页</li>
+</ol>  
+{% endblock %}
+
+{% block main %}
     {% for block in content_blocks %}
-        <div>{{ block.content_html }}</div>
-        <hr>
+    <div class="card">
+        {{ block.content_html }}
+    </div>
     {% endfor %}
-    </div>
-    <div>
-        <h2>侧边栏内容</h2>
-        {% for sidebar in sidebars %}
-            <div>{{ sidebar.content_html }}</div>
-            <hr>
-        {% endfor %}
-    </div>
-</body>
-</html>
+{% endblock main %}

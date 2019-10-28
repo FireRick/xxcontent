@@ -1,5 +1,9 @@
 {% extends "content/base.html" %}
 
+{% block title %}
+    {{ article.title }} - Django实践之路
+{% endblock title %}
+
 {% block breadcrumb %}
 <ol class="breadcrumb">
     <span>当前位置：</span>
@@ -31,9 +35,9 @@
         </div>
     </article>
     <div class="author">
-        作者：<a href="http://www.xdjango.com/">{{ article.author }}@django实践之路</a>
+        作者：<a href="http://www.xdjango.com{% url 'index' %}">{{ article.author }}@django实践之路</a>
         <br> 
-        原文链接：<a href="#">django实践之路(http://www.xdjango.com/post/1236/)</a>
+        原文链接：<a href="http://www.xdjango.com{% url 'article' article.id %}">django实践之路 http://www.xdjango.com{% url 'article' article.id %}</a>
         <br>
         版权声明：转载时必须以链接形式注明作者和原始出处及本声明
     </div>

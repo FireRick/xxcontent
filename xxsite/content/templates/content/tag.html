@@ -1,6 +1,25 @@
-<h1>标签：{{ tag.name }}</h1>
-<ul>
-{% for article in articles %}
-    <li>{{ article.title }}</li>
-{% endfor %}
-</ul>
+{% extends "content/base.html" %}
+
+{% block title %}
+    标签：{{ tag.name }} - Django实践之路
+{% endblock title %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <span>当前位置：</span>
+    <li><a href="{% url 'index' %}">首页</a></li>
+    <li class="active">{{ tag.name }}</li>
+</ol>  
+{% endblock %}
+
+{% block main %}
+<div class="card">
+    <h1 class="text-center">{{ tag.name }}文章列表</h1>
+    {% for article in articles %}
+    <div class="article-list">
+        <a href="{% url 'article' article.id %}"><h4>{{ article.title }}</h4></a>
+        <p>{{ article.desc }}</p>
+    </div>
+    {% endfor %}
+</div>
+{% endblock main %}

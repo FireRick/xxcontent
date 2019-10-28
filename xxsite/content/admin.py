@@ -31,14 +31,14 @@ class IndexContentAdmin(admin.ModelAdmin):
 class PageAdmin(admin.ModelAdmin):
     fieldsets = [
         ('页面元数据', {'fields': [
-            'link_word', 'title', 'author',
-            'create_time', 'update_time', 'does_follow',
+            'link_word', 'title', 'author', 'create_time',
+            'update_time', 'does_follow', 'does_nav',
         ]}),
         ('摘要和正文', {'fields': [
             'desc', 'content',
         ]}),
     ]
-    list_display = ('title', 'author', 'create_time', 'does_follow', 'pv', 'uv')
+    list_display = ('title', 'author', 'create_time', 'does_nav', 'pv', 'uv')
     list_filter = ['does_follow']
 
 

@@ -7,29 +7,38 @@ from django.urls import reverse
 
 from .models import (
     Article, IndexContent, Category,
-    Tag, Page, SideBar,
+    Tag, Page, SideBar, Link,
 )
 
 # Create your views here.
-class IndexView(TemplateView):
+class GenericViewMixin:
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update({
+            'categories': Category.objects.all(),
+            'sidebars': SideBar.objects.all(),
+            'pages': Page.objects.filter(does_nav=True),
+            'links': Link.objects.all(),
+        })
+        return context
+
+
+class IndexView(GenericViewMixin, TemplateView):
     template_name = "content/index.html"
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['content_blocks'] = IndexContent.get_all()
-        context.update({
-            'sidebars': SideBar.objects.all()
-        })
         return context
 
 
-class ArticleView(DetailView):
+class ArticleView(GenericViewMixin, DetailView):
     model = Article
     template_name = "content/article.html"
     context_object_name = "article"
 
 
-class CategoryView(ListView):
+class CategoryView(GenericViewMixin, ListView):
     queryset = Article.objects.all()
     template_name = "content/category.html"
     context_object_name = "articles"
@@ -50,7 +59,7 @@ class CategoryView(ListView):
         return queryset.filter(category_id=cat_id)
 
 
-class TagView(ListView):
+class TagView(GenericViewMixin, ListView):
     queryset = Article.objects.all()
     template_name = "content/tag.html"
     context_object_name = "articles"
@@ -70,7 +79,7 @@ class TagView(ListView):
         tag_id = self.kwargs.get('tag_id')
         return queryset.filter(tag__id=tag_id)
 
-class PageView(DetailView):
+class PageView(GenericViewMixin, DetailView):
     model = Page
     template_name = "content/page.html"
     pk_url_kwarg = "link_word"

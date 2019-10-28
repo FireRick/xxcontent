@@ -79,7 +79,7 @@ class SideBar(models.Model):
     )
 
     title = models.CharField(
-        max_length=50, verbose_name="标题", help_text="不填则不显示标题",)
+        max_length=50, verbose_name="标题",)
     does_show_title = models.BooleanField(default=True, verbose_name="是否显示标题")
     sidebar_type = models.PositiveIntegerField(
         default=1, choices=SIDEBAR_TYPE, verbose_name="展示类型",)
@@ -96,15 +96,11 @@ class SideBar(models.Model):
             result = mark_safe(self.content)
         elif self.sidebar_type == self.SIDEBAR_HOTEST:
             context = {
-                'title': self.title,
-                'show_title': self.does_show_title,
                 'articles': Article.hotest_articles()
             }
             result = render_to_string('content/articles_list_sidebar.html', context)
         elif self.sidebar_type == self.SIDEBAR_LATEST:
             context = {
-                'title': self.title,
-                'show_title': self.does_show_title,
                 'articles': Article.latest_articles()
             }
             result = render_to_string('content/articles_list_sidebar.html', context)
@@ -189,6 +185,7 @@ class Page(models.Model):
     content = models.TextField(verbose_name="正文", help_text="用 markdown 书写")
     create_time = models.DateTimeField(verbose_name="创建时间")
     update_time = models.DateTimeField(verbose_name="更新时间")
+    does_nav = models.BooleanField(default=False, verbose_name="是否添至导航栏")
     does_follow = models.BooleanField(default=False, verbose_name="是否跟踪")
     desc = models.CharField(max_length=1024, verbose_name="摘要")
     pv = models.PositiveIntegerField(default=0)

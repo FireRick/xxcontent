@@ -3,9 +3,6 @@
 {% endif %}
 <ul>
 {% for article in articles %}
-    <li>
-    <h4>{{ article.title }}</h4>
-    <p>{{ article.desc }}</p>
-    </li>
+    <li><a href="{% url 'article' article.id %}">{{ article.title }}</a></li>
 {% endfor %}
 </ul>
