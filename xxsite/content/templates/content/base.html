@@ -54,11 +54,11 @@
             padding: 10px 16px;
         }
         .entry-content, .author, .post-navigation, .m-sidebar>div+div,
-        .article-list {
+        .article-list, .entry-tags {
             border-top: 1px solid #f6f6f6;
         }
         .entry-header, .entry-content, .author, .post-navigation,
-        .article-list {
+        .article-list, .entry-tags {
             padding: 16px 0;
         }
         .m-footer {
@@ -73,12 +73,13 @@
             padding-left: 0px;
             margin-bottom: 20px;
         }
-        .footer-links li+li {
-            margin-left: 15px;
+        .tag-links {
+            padding-left: 0px;
+            margin-bottom: 0px;
         }
-        .footer-links li {
-            display: inline-block;
-        }
+        .footer-links li+li {margin-left:15px;}
+        .tag-links li+li {margin-left:10px;}
+        .footer-links li, .tag-links li {display:inline-block;}
     </style>
 </head>
 <body>
@@ -105,12 +106,12 @@
             <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
             <ul class="nav navbar-nav">
                 {% for category in categories %}
-                    <li><a href="{% url 'category' category.id %}">{{ category.name }}</a></li>
+                <li><a href="{% url 'category' category.id %}">{{ category.name }}</a></li>
                 {% endfor %}
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 {% for page in pages %}
-                    <li><a href="{% url 'page' page.link_word %}" {% if not page.does_follow %}rel="nofollow"{% endif %}>{{ page.title }}</a></li>
+                <li><a href="{% url 'page' page.link_word %}" {% if not page.does_follow %}rel="nofollow"{% endif %}>{{ page.title }}</a></li>
                 {% endfor %}
             </ul>
             </div><!-- /.navbar-collapse -->
@@ -130,12 +131,12 @@
                 <div class="col-lg-4 col-md-4 col-sm-4"><!-- 侧边栏框架 -->
                     <aside id="secondary" class="m-sidebar" role="complementary">
                         {% for sidebar in sidebars %}
-                            <div class="card">
-                                {% if sidebar.does_show_title %}
-                                    <h4>{{ sidebar.title }}</h4>
-                                {% endif %}
-                                {{ sidebar.content_html }}
-                            </div>
+                        <div class="card">
+                            {% if sidebar.does_show_title %}
+                                <h4>{{ sidebar.title }}</h4>
+                            {% endif %}
+                            {{ sidebar.content_html }}
+                        </div>
                         {% endfor %}
                     </aside>
                 </div>
@@ -146,7 +147,7 @@
         <div class="container">
             <ul class="footer-links">
                 {% for link in links %}
-                    <li><a href="{{ link.url }}" {% if not link.does_follow %}rel="nofollow"{% endif %}>{{ link.anchor_word }}</a></li>
+                <li><a href="{{ link.url }}" {% if not link.does_follow %}rel="nofollow"{% endif %}>{{ link.anchor_word }}</a></li>
                 {% endfor %}
             </ul>
             <p>

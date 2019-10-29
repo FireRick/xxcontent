@@ -32,10 +32,20 @@ class IndexView(GenericViewMixin, TemplateView):
         return context
 
 
-class ArticleView(GenericViewMixin, DetailView):
-    model = Article
+class ArticleView(GenericViewMixin, TemplateView):
+    # queryset = Article.objects.all()
     template_name = "content/article.html"
-    context_object_name = "article"
+    # context_object_name = "article"
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        article_id = self.kwargs.get('pk')
+        article = get_object_or_404(Article, pk=article_id)
+        context.update({
+            'article': article,
+            'tags': article.tag.all(),
+        })
+        return context
 
 
 class CategoryView(GenericViewMixin, ListView):
