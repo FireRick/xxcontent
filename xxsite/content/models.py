@@ -64,7 +64,7 @@ class Article(models.Model):
 
     class Meta:
         verbose_name = verbose_name_plural = "文章"
-        ordering = ["-id"]
+        ordering = ["-create_time"]
 
 
 class SideBar(models.Model):
