@@ -52,7 +52,7 @@ class CategoryView(GenericViewMixin, ListView):
     queryset = Article.objects.all()
     template_name = "content/category.html"
     context_object_name = "articles"
-    paginate_by = 5
+    paginate_by = 8
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -73,7 +73,7 @@ class TagView(GenericViewMixin, ListView):
     queryset = Article.objects.all()
     template_name = "content/tag.html"
     context_object_name = "articles"
-    paginate_by = 5
+    paginate_by = 8
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

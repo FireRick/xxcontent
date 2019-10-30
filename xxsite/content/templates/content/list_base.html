@@ -1,0 +1,44 @@
+{% extends "./base.html" %}
+
+{% block main %}
+<div class="card">
+    <h1 class="text-center">{% block list_name %}{% endblock %} 文章列表</h1>
+    <div class="entry-content">{% block list_content %}{% endblock %}</div>
+
+    {% for article in articles %}
+    <div class="article-list">
+        <a href="{% url 'article' article.id %}"><h4>{{ article.title }}</h4></a>
+        <p>{{ article.desc }}</p>
+    </div>
+    {% endfor %}
+
+    {% if page_obj %}
+    <nav id="pagination">
+        <ul class="pager">
+            {% if page_obj.has_previous %}
+            <li class="previous">
+                <a href="?page={{ page_obj.previous_page_number }}">上一页</a>
+            </li>
+            {% else %}
+            <li class="previous disabled">
+                <a href="#">上一页</a>
+            </li>
+            {% endif %}
+
+            <li><span>第{{ page_obj.number }}/{{ paginator.num_pages }}页</span></li>
+
+            {% if page_obj.has_next %}
+            <li class="next">
+                <a href="?page={{ page_obj.next_page_number }}">下一页</a>
+            </li>
+            {% else %}
+            <li class="next disabled">
+                <a href="#">下一页</a>
+            </li>
+            {% endif %}
+        </ul>
+    </nav>
+    {% endif %}
+
+</div>
+{% endblock main %}

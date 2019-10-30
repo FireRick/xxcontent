@@ -1,8 +1,10 @@
-{% extends "content/base.html" %}
+{% extends "./list_base.html" %}
 
 {% block title %}
     分类：{{ category.name }} - Django实践之路
 {% endblock title %}
+
+{% block list_name %}{{ category.name }}{% endblock %}
 
 {% block breadcrumb %}
 <ol class="breadcrumb">
@@ -12,15 +14,6 @@
 </ol>  
 {% endblock %}
 
-{% block main %}
-<div class="card">
-    <h1 class="text-center">{{ category.name }}文章列表</h1>
-    <div class="entry-content">{{ category.content }}</div>
-    {% for article in articles %}
-    <div class="article-list">
-        <a href="{% url 'article' article.id %}"><h4>{{ article.title }}</h4></a>
-        <p>{{ article.desc }}</p>
-    </div>
-    {% endfor %}
-</div>
-{% endblock main %}
+{% block list_content %}
+    {{ category.content }}
+{% endblock %}
