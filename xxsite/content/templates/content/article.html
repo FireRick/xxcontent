@@ -51,6 +51,30 @@
         <br>
         版权声明：转载时必须以链接形式注明作者和原始出处及本声明
     </div>
-    <nav class="post-navigation" role="navigation">页面导航</nav>
+    <nav id="article-navigation">
+        <ul class="pager">
+
+            {% if article.has_previous %}
+            <li class="previous">
+                <a href="{% url 'article' article.get_previous_id %}">上一篇：{{ article.get_previous_title }}</a>
+            </li>
+            {% else %}
+            <li class="previous disabled">
+                <a href="#">亲～这是第一篇</a>
+            </li>
+            {% endif %}
+
+            {% if article.has_next %}
+            <li class="next">
+                <a href="{% url 'article' article.get_next_id %}">下一篇：{{ article.get_next_title }}</a>
+            </li>
+            {% else %}
+            <li class="next disabled">
+                <a href="#">亲～这是最后一篇</a>
+            </li>
+            {% endif %}
+
+        </ul>
+    </nav>
 </main>
 {% endblock %}

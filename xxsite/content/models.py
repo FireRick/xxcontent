@@ -59,6 +59,49 @@ class Article(models.Model):
     def hotest_articles(cls):
         return cls.objects.order_by('-pv')[:5]
 
+    @property
+    def get_index(self):
+        """
+        获取当前实例在序列中的位置
+        """
+        article_list = Article.objects.all()
+        for index, article in list(enumerate(article_list)):
+            if article.id == self.id:
+                return index
+        return None
+
+    @property
+    def has_previous(self):
+        if self.get_index == 0:
+            return False
+        return True
+
+    @property
+    def has_next(self):
+        if self.get_index == len(Article.objects.all()) - 1:
+            return False
+        return True
+
+    @property
+    def get_previous_id(self):
+        previous_article = Article.objects.all()[self.get_index - 1]
+        return previous_article.id
+
+    @property
+    def get_next_id(self):
+        next_article = Article.objects.all()[self.get_index + 1]
+        return next_article.id
+
+    @property
+    def get_previous_title(self):
+        previous_article = Article.objects.all()[self.get_index - 1]
+        return previous_article.title
+
+    @property
+    def get_next_title(self):
+        next_article = Article.objects.all()[self.get_index + 1]
+        return next_article.title
+
     def __str__(self):
         return self.title
 
