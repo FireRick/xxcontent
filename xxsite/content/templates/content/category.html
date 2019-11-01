@@ -15,5 +15,5 @@
 {% endblock %}
 
 {% block list_content %}
-    {{ category.content }}
+    {{ category.content_html|safe }}
 {% endblock %}

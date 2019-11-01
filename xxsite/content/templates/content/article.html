@@ -41,7 +41,7 @@
         </div>
         {% endif %}
         <div class="entry-content">
-            {{ article.content }}
+            {{ article.content_html|safe }}
         </div>
     </article>
     <div class="author">

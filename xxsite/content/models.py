@@ -1,3 +1,5 @@
+import mistune
+
 from django.db import models
 from django.utils.safestring import mark_safe   # 防止html转义
 from django.template.loader import render_to_string
@@ -5,10 +7,18 @@ from django.template.loader import render_to_string
 
 
 # Create your models here.
-class Category(models.Model):
+class TranMarkdown:
+    def save(self, *args, **kwargs):
+        self.content_html = mistune.markdown(self.content)
+        super().save(*args, **kwargs)
+
+
+class Category(TranMarkdown, models.Model):
     """ 分类数据结构 """
     name = models.CharField(max_length=50, verbose_name="名称")
-    content = models.TextField(verbose_name="分类描述正文")
+    content = models.TextField(verbose_name="分类描述正文", help_text="用 markdown 书写")
+    content_html = models.TextField(
+        verbose_name="正文html代码", blank=True, editable=False)
     desc = models.CharField(max_length=1024, verbose_name="摘要")
     create_time = models.DateTimeField(verbose_name="创建时间")
     update_time = models.DateTimeField(verbose_name="更新时间")
@@ -20,10 +30,12 @@ class Category(models.Model):
         verbose_name = verbose_name_plural = "分类"
 
 
-class Tag(models.Model):
+class Tag(TranMarkdown, models.Model):
     """ 标签数据结构 """
     name = models.CharField(max_length=50, verbose_name="名称")
-    content = models.TextField(verbose_name="标签描述正文")
+    content = models.TextField(verbose_name="标签描述正文", help_text="用 markdown 书写")
+    content_html = models.TextField(
+        verbose_name="正文html代码", blank=True, editable=False)
     desc = models.CharField(max_length=1024, verbose_name="摘要")
     create_time = models.DateTimeField(verbose_name="创建时间")
     update_time = models.DateTimeField(verbose_name="更新时间")
@@ -35,7 +47,7 @@ class Tag(models.Model):
         verbose_name = verbose_name_plural = "标签"
 
 
-class Article(models.Model):
+class Article(TranMarkdown, models.Model):
     """ 文章数据结构 """
     title = models.CharField(max_length=50, verbose_name="标题")
     author = models.CharField(max_length=10, verbose_name="作者")
@@ -45,6 +57,8 @@ class Article(models.Model):
     tag = models.ManyToManyField(Tag, verbose_name="标签")
     desc = models.CharField(max_length=1024, verbose_name="摘要")
     content = models.TextField(verbose_name="正文", help_text="用 markdown 书写")
+    content_html = models.TextField(
+        verbose_name="正文html代码", blank=True, editable=False)
     pv = models.PositiveIntegerField(default=0)
     uv = models.PositiveIntegerField(default=0)
 
@@ -221,7 +235,7 @@ class IndexContent(models.Model):
         ordering = ["order_number"]
 
 
-class Page(models.Model):
+class Page(TranMarkdown, models.Model):
     """ 独立页面数据结构 """
     link_word = models.CharField(
         max_length=50, verbose_name="URL字符串", help_text="只能使用字母",
@@ -229,6 +243,8 @@ class Page(models.Model):
     title = models.CharField(max_length=50, verbose_name="标题")
     author = models.CharField(max_length=10, verbose_name="作者")
     content = models.TextField(verbose_name="正文", help_text="用 markdown 书写")
+    content_html = models.TextField(
+        verbose_name="正文html代码", blank=True, editable=False)
     create_time = models.DateTimeField(verbose_name="创建时间")
     update_time = models.DateTimeField(verbose_name="更新时间")
     does_nav = models.BooleanField(default=False, verbose_name="是否添至导航栏")
