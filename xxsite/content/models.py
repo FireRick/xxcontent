@@ -121,6 +121,8 @@ class SideBar(models.Model):
         (SIDEBAR_LATEST, "最新文章"),
     )
 
+    order_number = models.PositiveSmallIntegerField(verbose_name="序号",\
+        help_text="只能使用正整数且唯一", unique=True)
     title = models.CharField(
         max_length=50, verbose_name="标题",)
     does_show_title = models.BooleanField(default=True, verbose_name="是否显示标题")
@@ -156,6 +158,7 @@ class SideBar(models.Model):
 
     class Meta:
         verbose_name = verbose_name_plural = "侧边栏"
+        ordering = ["order_number"]
 
 
 class IndexContent(models.Model):
@@ -169,18 +172,17 @@ class IndexContent(models.Model):
         (CONTENT_LATEST, "最新文章"),
     )
 
+    order_number = models.PositiveSmallIntegerField(verbose_name="序号",\
+        help_text="只能使用正整数且唯一", unique=True)
     title = models.CharField(
         max_length=50, verbose_name="标题",
-        help_text="不填则不显示标题",
-    )
+        help_text="不填则不显示标题",)
     does_show_title = models.BooleanField(default=True, verbose_name="是否显示标题")
     content_type = models.PositiveIntegerField(
-        default=1, choices=CONTENT_TYPE, verbose_name="展示类型",
-    )
+        default=1, choices=CONTENT_TYPE, verbose_name="展示类型",)
     content = models.CharField(
         max_length=1024, blank=True, verbose_name="内容",
-        help_text="只有选择 HTML 时才需要填写内容",
-    )
+        help_text="只有选择 HTML 时才需要填写内容",)
 
     @property
     def content_html(self):
@@ -216,13 +218,14 @@ class IndexContent(models.Model):
 
     class Meta:
         verbose_name = verbose_name_plural = "首页内容区"
+        ordering = ["order_number"]
+
 
 class Page(models.Model):
     """ 独立页面数据结构 """
     link_word = models.CharField(
         max_length=50, verbose_name="URL字符串", help_text="只能使用字母",
-        primary_key=True, unique=True,
-    )
+        primary_key=True, unique=True)
     title = models.CharField(max_length=50, verbose_name="标题")
     author = models.CharField(max_length=10, verbose_name="作者")
     content = models.TextField(verbose_name="正文", help_text="用 markdown 书写")
@@ -243,6 +246,8 @@ class Page(models.Model):
 
 class Link(models.Model):
     """ 底部文字链接数据结构 """
+    order_number = models.PositiveSmallIntegerField(verbose_name="序号",\
+        help_text="只能使用正整数且唯一", unique=True)
     url = models.CharField(
         max_length=200, verbose_name="URL", help_text="建议使用绝对路径")
     anchor_word = models.CharField(max_length=50, verbose_name="锚文字")
@@ -254,3 +259,4 @@ class Link(models.Model):
 
     class Meta:
         verbose_name = verbose_name_plural = "底部文字链接"
+        ordering = ["order_number"]

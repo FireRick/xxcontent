@@ -21,11 +21,11 @@ class ArticleAdmin(admin.ModelAdmin):
 
 
 class SideBarAdmin(admin.ModelAdmin):
-    list_display = ('title', 'sidebar_type')
+    list_display = ('title', 'sidebar_type', 'order_number')
 
 
 class IndexContentAdmin(admin.ModelAdmin):
-    list_display = ('title', 'content_type')
+    list_display = ('title', 'content_type', 'order_number')
 
 
 class PageAdmin(admin.ModelAdmin):
@@ -43,7 +43,7 @@ class PageAdmin(admin.ModelAdmin):
 
 
 class LinkAdmin(admin.ModelAdmin):
-    list_display = ('anchor_word', 'create_time', 'does_follow')
+    list_display = ('anchor_word', 'create_time', 'does_follow', 'order_number')
     list_filter = ['does_follow']
 
 
