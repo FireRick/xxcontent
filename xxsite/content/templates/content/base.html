@@ -1,3 +1,4 @@
+{% spaceless %}
 <!DOCTYPE html>
 <html lang="zh-hans">
 <head>
@@ -46,6 +47,11 @@
             background-color: transparent;
             margin-bottom: 0;
         }
+        /* .breadcrumb>li+li:before {
+            padding: 0 0 5px 7px;
+            color: #ccc;
+            content: "/\00a0";
+        } */
         .card {
             background-color: #fff;
             border-radius: 2px;
@@ -118,9 +124,7 @@
         </div><!-- /.container-fluid -->
     </nav>
     <div class="container">
-        {% block breadcrumb %}
-            面包屑导航
-        {% endblock %}
+        {% block breadcrumb %}面包屑导航{% endblock %}
         <div class="m-main"><!-- 页面主体 -->
             <div class="row">
                 <div class="col-lg-8 col-md-8 col-sm-8"><!-- 正文栏框架 -->
@@ -150,13 +154,12 @@
                 <li><a href="{{ link.url }}" {% if not link.does_follow %}rel="nofollow"{% endif %}>{{ link.anchor_word }}</a></li>
                 {% endfor %}
             </ul>
-            <p>
-                <a href="http://www.xdjango.com/">Django实践之路</a> &copy; 2019
-                站长统计
-            </p>
+            <p><a href="http://www.xdjango.com/">Django实践之路</a> &copy; 2019 站长统计</p>
             <p><a href="#">浙ICP备19021608-2号</a></p>
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@3.3.7/dist/js/bootstrap.min.js"></script>
 </body>
+</html>
+{% endspaceless %}
