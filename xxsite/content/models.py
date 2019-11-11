@@ -28,6 +28,7 @@ class Category(TranMarkdown, models.Model):
 
     class Meta:
         verbose_name = verbose_name_plural = "分类"
+        ordering = ["-id"]
 
 
 class Tag(TranMarkdown, models.Model):
@@ -45,6 +46,7 @@ class Tag(TranMarkdown, models.Model):
 
     class Meta:
         verbose_name = verbose_name_plural = "标签"
+        ordering = ["-id"]
 
 
 class Article(TranMarkdown, models.Model):
@@ -258,6 +260,7 @@ class Page(TranMarkdown, models.Model):
 
     class Meta:
         verbose_name = verbose_name_plural = "独立页面"
+        ordering = ["link_word"]
 
 
 class Link(models.Model):
