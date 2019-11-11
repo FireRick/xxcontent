@@ -14,25 +14,30 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from django.conf import settings
+from django.views.decorators.cache import cache_page
 from django.contrib.sitemaps.views import sitemap
 
 from content.views import (
     IndexView, ArticleView, CategoryView,
-    TagView, PageView, ArticleSitemap,
-    PageSitemap, CategorySitemap, IndexSitemap,
-    TagSitemap
+    TagView, PageView,
 )
+from content.sitemap import (
+    ArticleSitemap, PageSitemap, CategorySitemap,
+    IndexSitemap, TagSitemap,
+)
+
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', IndexView.as_view(), name='index'),
-    path('category/<int:cat_id>/', CategoryView.as_view(), name='category'),
-    path('tag/<int:tag_id>/', TagView.as_view(), name='tag'),
-    path('<link_word>/', PageView.as_view(), name='page'),
-    path('article/<pk>/', ArticleView.as_view(), name='article'),
+    path('', cache_page(1200)(IndexView.as_view()), name='index'),
+    path('category/<int:cat_id>/', cache_page(1200)(CategoryView.as_view()), name='category'),
+    path('tag/<int:tag_id>/', cache_page(1200)(TagView.as_view()), name='tag'),
+    path('<link_word>/', cache_page(1200)(PageView.as_view()), name='page'),
+    path('article/<pk>/', cache_page(1200)(ArticleView.as_view()), name='article'),
     path(
-        'sitemap.xml', sitemap, {
+        'sitemap.xml', cache_page(1200)(sitemap), {
         'sitemaps': {
             'index': IndexSitemap,
             'category': CategorySitemap,
@@ -45,3 +50,10 @@ urlpatterns = [
         name='django.contrib.sitemaps.views.sitemap'
     ),
 ]
+
+if settings.DEBUG:
+    import debug_toolbar
+    urlpatterns += [
+        path('__debug__/', include(debug_toolbar.urls)),
+        # path('silk/', include('silk.urls', namespace='silk')),
+    ]

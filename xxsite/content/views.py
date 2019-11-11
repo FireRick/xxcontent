@@ -2,8 +2,6 @@ from django.shortcuts import get_object_or_404
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
-from django.contrib.sitemaps import Sitemap
-from django.urls import reverse
 
 from .models import (
     Article, IndexContent, Category,
@@ -94,73 +92,3 @@ class PageView(GenericViewMixin, DetailView):
     template_name = "content/page.html"
     pk_url_kwarg = "link_word"
     context_object_name = "page"
-
-
-class ArticleSitemap(Sitemap):
-    changefreq = "daily"
-    priority = 0.8
-
-    def items(self):
-        return Article.objects.all()
-
-    def lastmod(self, obj):
-        return obj.update_time
-
-    def location(self, obj):
-        return reverse('article', args=[obj.pk])
-
-
-class PageSitemap(Sitemap):
-    changefreq = "weekly"
-    priority = 0.5
-
-    def items(self):
-        return Page.objects.all()
-
-    def lastmod(self, obj):
-        return obj.update_time
-
-    def location(self, obj):
-        return reverse('page', args=[obj.pk])
-
-
-class CategorySitemap(Sitemap):
-    changefreq = "daily"
-    priority = 0.9
-
-    def items(self):
-        return Category.objects.all()
-
-    def lastmod(self, obj):
-        return obj.update_time
-
-    def location(self, obj):
-        return reverse('category', args=[obj.pk])
-
-
-class TagSitemap(Sitemap):
-    changefreq = "daily"
-    priority = 0.8
-
-    def items(self):
-        return Tag.objects.all()
-
-    def lastmod(self, obj):
-        return obj.update_time
-
-    def location(self, obj):
-        return reverse('tag', args=[obj.pk])
-
-
-class IndexSitemap(Sitemap):
-    changefreq = "daily"
-    priority = 1.0
-
-    def items(self):
-        return [Article.objects.order_by('-update_time')[0]]  # 中括号包裹，形成序列，否则 len() 调用会出错
-
-    def lastmod(self, obj):
-        return obj.update_time
-
-    def location(self, obj):
-        return reverse('index')
