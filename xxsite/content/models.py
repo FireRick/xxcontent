@@ -3,6 +3,7 @@ import mistune
 from django.db import models
 from django.utils.safestring import mark_safe   # 防止html转义
 from django.template.loader import render_to_string
+import redis
 # from django.urls import reverse
 
 
@@ -66,6 +67,30 @@ class Article(TranMarkdown, models.Model):
 
     # def get_absolute_url(self):
     #     return reverse('article', args=[self.pk])
+
+    def save(self, *args, **kwargs):
+        """
+        在 redis 中设置 uv
+        """
+        super().save(*args, **kwargs)
+        r = redis.Redis(host='localhost', port=6379, db=0)
+        if not r.exists('article:%s:uv' % self.id):
+            r.set('article:%s:uv' % self.id, 0)
+        return
+
+    @property
+    def get_uv(self):
+        """
+        获取文章的 uv，且每次在模板中调用 get_uv 时会对 uv 做 +1 操作。
+        在当前页面有缓存时不会重新渲染模板，所以不会造成同一用户频繁刷新造成 uv 暴增。
+        """
+        r = redis.Redis(host='localhost', port=6379, db=0)
+        key = 'article:%s:uv' % self.id
+        if r.exists(key):
+            r.incr(key)
+            return str(r.get(key), encoding='utf-8')
+        else:
+            return "n/a"
 
     @classmethod
     def latest_articles(cls):
