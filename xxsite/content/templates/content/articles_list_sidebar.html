@@ -1,7 +1,7 @@
 {% if show_title %}
     <h2>{{ title }}</h2>
 {% endif %}
-<ul>
+<ul class="list-unstyled">
 {% for article in articles %}
     <li><a href="{% url 'article' article.id %}">{{ article.title }}</a></li>
 {% endfor %}
