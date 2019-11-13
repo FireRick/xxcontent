@@ -1,11 +1,10 @@
 {% if show_title %}
     <h2>{{ title }}</h2>
 {% endif %}
-<ul>
 {% for article in articles %}
-    <li>
-    <h4>{{ article.title }}</h4>
-    <p>{{ article.desc }}</p>
-    </li>
+    <div class="article-bar">
+        <h4>{{ article.title }}</h4>
+        <p>{{ article.desc }}</p>
+        <div class="text-right readmore"><a href="{% url 'article' article.id %}">阅读全文</a></div>
+    </div>
 {% endfor %}
-</ul>
