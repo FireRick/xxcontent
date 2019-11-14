@@ -113,6 +113,14 @@ USE_TZ = True
 STATIC_ROOT = BASE_DIR + '/static/'
 
 
+# 站点信息
+
+SITE_URL = 'http://www.xdjango.com'
+SITE_NAME = 'Django实践之路'
+SITE_DESCRIPTION = 'Django学习笔记，技巧分享，技术探讨，在Django实践之路上共同进步！'
+BEIAN = '浙ICP备19021608-3号'
+
+
 if DEBUG:
     ALLOWED_HOSTS = ['*']
 
@@ -154,8 +162,9 @@ if DEBUG:
     ]
 
     STATIC_URL = '/static/'
+    SITE_URL = '' # 调试模式中用相对路径替代
 
 else:
-    ALLOWED_HOSTS = []
+    ALLOWED_HOSTS = ['www.xdjango.com']
 
     STATIC_URL = 'http://xxx.com/static/'  # cdn

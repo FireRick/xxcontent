@@ -7,6 +7,7 @@ from .models import (
     Article, IndexContent, Category,
     Tag, Page, SideBar, Link,
 )
+from xxsite.settings import SITE_URL, SITE_NAME, SITE_DESCRIPTION, BEIAN
 
 # Create your views here.
 class GenericViewMixin:
@@ -17,6 +18,10 @@ class GenericViewMixin:
             'sidebars': SideBar.objects.all(),
             'pages': Page.objects.filter(does_nav=True),
             'links': Link.objects.all(),
+            'site_url': SITE_URL,
+            'site_name': SITE_NAME,
+            'site_description': SITE_DESCRIPTION,
+            'beian': BEIAN,
         })
         return context
 

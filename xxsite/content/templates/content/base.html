@@ -21,8 +21,8 @@
 <body>
     <header class="m-header">
         <div class="container">
-            <h1>页头部分</h1>
-            <p>内容部分，加油，做好每一个热点网站，形成一张网</p>
+            <h1>{{ site_name }}</h1>
+            <p>{{ site_description }}</p>
         </div>
     </header>
     <nav class="navbar navbar-default">
@@ -84,8 +84,8 @@
                 <li><a href="{{ link.url }}" {% if not link.does_follow %}rel="nofollow"{% endif %}>{{ link.anchor_word }}</a></li>
                 {% endfor %}
             </ul>
-            <p><a href="http://www.xdjango.com/">Django实践之路</a> &copy; 2019 站长统计</p>
-            <p><a href="#">浙ICP备19021608-2号</a></p>
+            <p><a href="http://{{ site_domain }}">{{ site_name }}</a> &copy; 2019 站长统计</p>
+            <p><a href="http://beian.miitbeian.gov.cn">{{ beian }}</a></p>
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
