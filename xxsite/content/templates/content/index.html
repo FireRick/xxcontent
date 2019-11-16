@@ -1,5 +1,9 @@
 {% extends "content/base.html" %}
 
+{% block meta-description %}
+<meta name="description" content="{{ site_description }}">
+{% endblock meta-description %}
+
 {% block title %}{{ site_name }}{% endblock title %}
 
 {% block breadcrumb %}

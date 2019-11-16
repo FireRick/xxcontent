@@ -1,5 +1,9 @@
 {% extends "./list_base.html" %}
 
+{% block meta-description %}
+<meta name="description" content="{{ category.desc }}">
+{% endblock meta-description %}
+
 {% block title %}分类：{{ category.name }} - {{ site_name }}{% endblock title %}
 
 {% block list_name %}{{ category.name }}{% endblock %}
