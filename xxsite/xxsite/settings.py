@@ -128,7 +128,7 @@ if DEBUG:
         'debug_toolbar',
         # 'silk',
         'pympler',
-        'debug_toolbar_line_profiler',
+        # 'debug_toolbar_line_profiler',
     ]
 
     MIDDLEWARE += [
@@ -158,13 +158,13 @@ if DEBUG:
     #     'debug_toolbar.panels.profiling.ProfilingPanel',
         'pympler.panels.MemoryPanel',
         # 'djdt_flamegraph.FlamegraphPanel',
-        'debug_toolbar_line_profiler.panel.ProfilingPanel',
+    #    'debug_toolbar_line_profiler.panel.ProfilingPanel',
     ]
 
     STATIC_URL = '/static/'
     SITE_URL = '' # 调试模式中用相对路径替代
 
 else:
-    ALLOWED_HOSTS = ['www.xdjango.com']
+    ALLOWED_HOSTS = ['www.xdjango.com', '192.168.88.15']
 
     STATIC_URL = 'http://xxx.com/static/'  # cdn

@@ -1,0 +1,2 @@
+recursive-include xxsite *.css *.js *.jpg *.gif *.png *.html *.md
+prune xxsite/xxsite/static

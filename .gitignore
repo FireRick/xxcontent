@@ -2,3 +2,9 @@
 *.swp
 *.sqlite3
 xxsite/xxsite/static/
+
+# Distribution / packaging
+build/
+dist/
+*.egg-info/
+
