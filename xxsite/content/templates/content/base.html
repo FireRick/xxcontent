@@ -90,7 +90,7 @@
                 <li><a href="{{ link.url }}" {% if not link.does_follow %}rel="nofollow"{% endif %}>{{ link.anchor_word }}</a></li>
                 {% endfor %}
             </ul>
-            <p><a href="http://{{ site_domain }}">{{ site_name }}</a> &copy; 2019 站长统计</p>
+            <p><a href="{{ site_url }}">{{ site_name }}</a> &copy; 2019 站长统计</p>
             <p><a href="http://beian.miitbeian.gov.cn">{{ beian }}</a></p>
         </div>
     </footer>
