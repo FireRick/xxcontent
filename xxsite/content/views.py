@@ -2,6 +2,8 @@ from django.shortcuts import get_object_or_404
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+from django.utils.decorators import method_decorator
+from django.views.decorators.vary import vary_on_headers
 
 from .models import (
     Article, IndexContent, Category,
@@ -26,6 +28,7 @@ class GenericViewMixin:
         return context
 
 
+@method_decorator(vary_on_headers('User-Agent'), name='dispatch')
 class IndexView(GenericViewMixin, TemplateView):
     template_name = "content/index.html"
 
