@@ -1,7 +1,12 @@
+import redis
+
+# from datetime import date
+
 from django.shortcuts import get_object_or_404
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
+from django.core.cache import cache
 
 from .models import (
     Article, IndexContent, Category,
@@ -42,11 +47,14 @@ class ArticleView(GenericViewMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        rd = redis.Redis(host='localhost', port=6379, db=0)
+        uv = str(rd.get('uv:' + self.request.path), encoding='utf-8')
         article_id = self.kwargs.get('pk')
         article = get_object_or_404(Article, pk=article_id)
         context.update({
             'article': article,
             'tags': article.tag.all(),
+            'uv': uv,
         })
         return context
 
