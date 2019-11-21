@@ -21,7 +21,7 @@ from django.contrib.sitemaps.views import sitemap
 
 from content.views import (
     IndexView, ArticleView, CategoryView,
-    TagView, PageView,
+    TagView, PageView, stat,
 )
 from content.sitemap import (
     ArticleSitemap, PageSitemap, CategorySitemap,
@@ -31,11 +31,12 @@ from content.sitemap import (
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('stat/', stat, name='stat'),
     path('', cache_page(300)(IndexView.as_view()), name='index'),
+    path('article/<pk>/', cache_page(1200)(ArticleView.as_view()), name='article'),
     path('category/<int:cat_id>/', cache_page(600)(CategoryView.as_view()), name='category'),
     path('tag/<int:tag_id>/', cache_page(600)(TagView.as_view()), name='tag'),
     path('<link_word>/', cache_page(1800)(PageView.as_view()), name='page'),
-    path('article/<pk>/', cache_page(1200)(ArticleView.as_view()), name='article'),
     path(
         'sitemap.xml', cache_page(600)(sitemap), {
         'sitemaps': {

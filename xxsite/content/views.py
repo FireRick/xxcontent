@@ -1,12 +1,13 @@
 import redis
 
-# from datetime import date
+from datetime import date
 
 from django.shortcuts import get_object_or_404
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.core.cache import cache
+from django.http import HttpResponse
 
 from .models import (
     Article, IndexContent, Category,
@@ -105,3 +106,21 @@ class PageView(GenericViewMixin, DetailView):
     template_name = "content/page.html"
     pk_url_kwarg = "link_word"
     context_object_name = "page"
+
+def stat(request):
+    """
+    暂时用于 web 端查看访问数据
+    """
+    rd = redis.Redis(host='localhost', port=6379, db=0)
+    today_str = str(date.today())
+    uv_key_day = 'uv:' + today_str
+    uv_key_all = 'uv_all'
+    pv_key_day = 'pv:' + today_str
+    pv_key_all = 'pv_all'
+    uv_day = str(rd.get(uv_key_day), encoding='utf-8')
+    uv_all = str(rd.get(uv_key_all), encoding='utf-8')
+    pv_day = str(rd.get(pv_key_day), encoding='utf-8')
+    pv_all = str(rd.get(pv_key_all), encoding='utf-8')
+    html = "<p>日期：%s</p><p>PV(今日/总)：%s/%s</p><p>UV(今日/总)：%s/%s</p>" % (
+        today_str, pv_day, pv_all, uv_day, uv_all)
+    return HttpResponse(html)
