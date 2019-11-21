@@ -111,7 +111,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-STATIC_ROOT = BASE_DIR + '/static/'
+STATIC_ROOT = os.path.dirname(BASE_DIR) + '/static/'
 
 
 # 站点信息
@@ -166,6 +166,6 @@ if DEBUG:
     SITE_URL = '' # 调试模式中用相对路径替代
 
 else:
-    ALLOWED_HOSTS = ['www.xdjango.com', '192.168.88.15']
+    ALLOWED_HOSTS = ['www.xxx.com', '192.168.88.15']
 
     STATIC_URL = 'http://xxx.com/static/'  # cdn
