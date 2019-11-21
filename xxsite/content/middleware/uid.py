@@ -18,7 +18,6 @@ class UidMiddleware:
     def __call__(self, request):
         uid = self.generate_uid(request)
         self.handle_visited(request, uid)
-        request.uid = uid
         response = self.get_response(request)
         response.set_cookie(USER_KEY, uid, max_age=TEN_YEARS, httponly=True)
         return response
