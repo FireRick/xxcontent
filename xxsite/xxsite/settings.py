@@ -111,7 +111,7 @@ USE_L10N = True
 USE_TZ = True
 
 
-STATIC_ROOT = os.path.dirname(BASE_DIR) + '/static/'
+STATIC_ROOT = os.path.dirname(BASE_DIR) + '/static_files/'
 
 
 # 站点信息
