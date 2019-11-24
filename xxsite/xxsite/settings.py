@@ -1,6 +1,9 @@
 import os
 
 
+VERSION = '${version}'
+
+
 DEBUG = False
 
 
