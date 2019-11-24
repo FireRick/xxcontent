@@ -121,6 +121,7 @@ SITE_URL = 'http://www.xdjango.com'
 SITE_NAME = 'Django实践之路'
 SITE_DESCRIPTION = 'Django学习笔记，技巧分享，技术探讨，在Django实践之路上共同进步！'
 BEIAN = '浙ICP备19021608-3号'
+CDN = ''
 
 
 if DEBUG:
@@ -167,6 +168,10 @@ if DEBUG:
     SITE_URL = '' # 调试模式中用相对路径替代
 
 else:
-    ALLOWED_HOSTS = ['www.xxx.com', '192.168.88.15']
+    ALLOWED_HOSTS = ['www.xxx.com', '192.168.88.15', '127.0.0.1']
 
-    STATIC_URL = 'http://xxx.com/static/'  # cdn
+    if CDN:
+        STATIC_URL = CDN + '/static/'  # cdn
+    else:
+        STATIC_URL = '/static/'
+
