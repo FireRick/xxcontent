@@ -1,7 +1,7 @@
 *.pyc
 *.swp
 *.sqlite3
-static/
+static_files/
 
 # Distribution / packaging
 build/
