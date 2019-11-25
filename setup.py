@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 
 setup(
     name='xxsite',
-    version='0.1',
+    version='${version}',
     description='内容发布工具',
     author='firerick',
     author_email='rickdonma@gmail.com',
@@ -20,10 +20,10 @@ setup(
         'django-redis==4.9.0',
         'mistune==0.8.4',
         'hiredis==0.2.0',
+        'redis==2.10.6',
         # debug
         'django-debug-toolbar==1.9.1',
         'Pympler==0.5',
-        'redis==2.10.6',
     ],
     scripts=[
         'xxsite/manage.py',
