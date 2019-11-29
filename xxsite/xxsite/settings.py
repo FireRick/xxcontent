@@ -10,15 +10,15 @@ DEBUG = False
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-SECRET_KEY = '6ka2-s6_v$u%p0)etd+sdm80@%)h(o^qdho_3$atfi4+i)lcrx'
+SECRET_KEY = os.environ['XX_SECRET_KEY']
 
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'xxcontent',
-        'USER': 'fire',
-        'PASSWORD': 'admin',
+        'USER': os.environ['XX_DB_USER'],
+        'PASSWORD': os.environ['XX_DB_PASSWORD'],
         'HOST': '127.0.0.1',
         'PORT': 3306,
         'CONN_MAX_AGE': 5 * 60,
