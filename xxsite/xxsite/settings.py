@@ -120,11 +120,12 @@ STATIC_ROOT = os.path.dirname(BASE_DIR) + '/static_files/'
 
 # 站点信息
 
-SITE_URL = 'http://www.xdjango.com'
-SITE_NAME = 'Django实践之路'
-SITE_DESCRIPTION = 'Django学习笔记，技巧分享，技术探讨，在Django实践之路上共同进步！'
-BEIAN = '浙ICP备19021608-3号'
-CDN = ''
+SITE_DOMAIN = 'www.example.com'
+SITE_URL = 'http://' + SITE_DOMAIN
+SITE_NAME = '网站标题'
+SITE_DESCRIPTION = '网站内容简介'
+BEIAN = '备案号'
+CDN = 'http://www.cdn.com'
 
 
 if DEBUG:
@@ -171,7 +172,7 @@ if DEBUG:
     SITE_URL = '' # 调试模式中用相对路径替代
 
 else:
-    ALLOWED_HOSTS = ['www.xxx.com', '192.168.88.15', '127.0.0.1']
+    ALLOWED_HOSTS = [SITE_DOMAIN, '127.0.0.1']
 
     if CDN:
         STATIC_URL = CDN + '/static/'  # cdn
