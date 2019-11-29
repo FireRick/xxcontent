@@ -17,7 +17,7 @@ DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'xxcontent',
-        'USER': os.environ['XX_DB_USER'],
+        'USER': 'fire',
         'PASSWORD': os.environ['XX_DB_PASSWORD'],
         'HOST': '127.0.0.1',
         'PORT': 3306,
