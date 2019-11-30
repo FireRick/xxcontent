@@ -48,8 +48,13 @@ class ArticleView(GenericViewMixin, TemplateView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+
+        pv_key = 'pv:' + self.request.path
         rd = redis.Redis(host='localhost', port=6379, db=0)
-        pv = str(rd.get('pv:' + self.request.path), encoding='utf-8')
+        if rd.exists(pv_key):
+            pv = str(rd.get(pv_key), encoding='utf-8')
+        else:
+            pv = 1
         article_id = self.kwargs.get('pk')
         article = get_object_or_404(Article, pk=article_id)
         context.update({
