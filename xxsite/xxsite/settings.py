@@ -14,7 +14,7 @@ SITE_URL = 'http://' + SITE_DOMAIN
 SITE_NAME = '网站标题'
 SITE_DESCRIPTION = '网站内容简介'
 BEIAN = '备案号'
-CDN = 'http://cdn.example.com'
+CDN = ''
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
