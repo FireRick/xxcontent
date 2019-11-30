@@ -26,7 +26,7 @@ class ArticleAdmin(admin.ModelAdmin):
             'desc', 'content',
         ]}),
     ]
-    list_display = ('title', 'author', 'create_time', 'category', 'pv', 'uv')
+    list_display = ('title', 'author', 'create_time', 'category')
     list_filter = ['category']
 
 
@@ -49,7 +49,7 @@ class PageAdmin(admin.ModelAdmin):
             'desc', 'content',
         ]}),
     ]
-    list_display = ('title', 'author', 'create_time', 'does_nav', 'pv', 'uv')
+    list_display = ('title', 'author', 'create_time', 'does_nav')
     list_filter = ['does_follow']
 
 
