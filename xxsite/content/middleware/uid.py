@@ -37,7 +37,6 @@ class UidMiddleware:
     def handle_visited(self, request, uid, is_new_user):
         rd = redis.Redis(host='localhost', port=6379, db=0)
         today_str = str(date.today())
-        uv_key_page = 'uv:' + request.path
         uv_key_day = 'uv:' + today_str
         uv_key_all = 'uv_all'
         pv_key_page = 'pv:' + request.path
@@ -45,8 +44,7 @@ class UidMiddleware:
         pv_key_all = 'pv_all'
         # 如果 flag 存在，则表明当前为重复访问，访问量不增加
         pv_flag = '.'.join([pv_key_page, uid])
-        uv_flag_page = '.'.join([uv_key_page, today_str, uid])
-        uv_flag_day = '.'.join([uv_key_day, uid])
+        uv_flag = '.'.join([uv_key_day, uid])
 
         # 处理 pv 统计
         if not rd.exists(pv_flag):
@@ -67,16 +65,9 @@ class UidMiddleware:
             else:
                 rd.set(pv_key_all, 1)
         
-        # 处理 页面uv 统计
-        if not rd.exists(uv_flag_page):
-            rd.set(uv_flag_page, 1, 3600*24)  # set ttl to 24h
-            if rd.exists(uv_key_page):
-                rd.incr(uv_key_page)
-            else:
-                rd.set(uv_key_page, 1)
         # 处理 日uv 统计
-        if not rd.exists(uv_flag_day):
-            rd.set(uv_flag_day, 1, 3600*24)  # set ttl to 24h
+        if not rd.exists(uv_flag):
+            rd.set(uv_flag, 1, 3600*24)  # set ttl to 24h
             if rd.exists(uv_key_day):
                 rd.incr(uv_key_day)
             else:
