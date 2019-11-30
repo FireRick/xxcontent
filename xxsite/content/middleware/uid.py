@@ -16,10 +16,11 @@ class UidMiddleware:
         self.get_response = get_response
 
     def __call__(self, request):
-        uid, is_new_user = self.generate_uid(request)
-        self.handle_visited(request, uid, is_new_user)
         response = self.get_response(request)
-        response.set_cookie(USER_KEY, uid, max_age=TEN_YEARS, httponly=True)
+        if response.status_code == 200:
+            uid, is_new_user = self.generate_uid(request)
+            self.handle_visited(request, uid, is_new_user)
+            response.set_cookie(USER_KEY, uid, max_age=TEN_YEARS, httponly=True)
         return response
 
     def generate_uid(self, request):
