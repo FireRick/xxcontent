@@ -7,6 +7,16 @@ VERSION = '${version}'
 DEBUG = False
 
 
+# 站点信息(需要根据不同的网站来填入)
+
+SITE_DOMAIN = 'www.example.com'
+SITE_URL = 'http://' + SITE_DOMAIN
+SITE_NAME = '网站标题'
+SITE_DESCRIPTION = '网站内容简介'
+BEIAN = '备案号'
+CDN = 'http://cdn.example.com'
+
+
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
@@ -116,16 +126,6 @@ USE_TZ = True
 
 
 STATIC_ROOT = os.path.dirname(BASE_DIR) + '/static_files/'
-
-
-# 站点信息
-
-SITE_DOMAIN = 'www.example.com'
-SITE_URL = 'http://' + SITE_DOMAIN
-SITE_NAME = '网站标题'
-SITE_DESCRIPTION = '网站内容简介'
-BEIAN = '备案号'
-CDN = 'http://www.cdn.com'
 
 
 if DEBUG:
