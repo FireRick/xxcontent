@@ -21,8 +21,6 @@ class Category(TranMarkdown, models.Model):
     content_html = models.TextField(
         verbose_name="正文html代码", blank=True, editable=False)
     desc = models.CharField(max_length=1024, verbose_name="摘要")
-    create_time = models.DateTimeField(verbose_name="创建时间")
-    update_time = models.DateTimeField(verbose_name="更新时间")
 
     def __str__(self):
         return self.name
@@ -39,8 +37,6 @@ class Tag(TranMarkdown, models.Model):
     content_html = models.TextField(
         verbose_name="正文html代码", blank=True, editable=False)
     desc = models.CharField(max_length=1024, verbose_name="摘要")
-    create_time = models.DateTimeField(verbose_name="创建时间")
-    update_time = models.DateTimeField(verbose_name="更新时间")
 
     def __str__(self):
         return self.name
@@ -62,11 +58,6 @@ class Article(TranMarkdown, models.Model):
     content = models.TextField(verbose_name="正文", help_text="用 markdown 书写")
     content_html = models.TextField(
         verbose_name="正文html代码", blank=True, editable=False)
-    pv = models.PositiveIntegerField(default=0)
-    uv = models.PositiveIntegerField(default=0)
-
-    # def get_absolute_url(self):
-    #     return reverse('article', args=[self.pk])
 
     @classmethod
     def latest_articles(cls):
@@ -253,8 +244,6 @@ class Page(TranMarkdown, models.Model):
     does_nav = models.BooleanField(default=False, verbose_name="是否添至导航栏")
     does_follow = models.BooleanField(default=False, verbose_name="是否跟踪")
     desc = models.CharField(max_length=1024, verbose_name="摘要")
-    pv = models.PositiveIntegerField(default=0)
-    uv = models.PositiveIntegerField(default=0)
 
     def __str__(self):
         return self.title
