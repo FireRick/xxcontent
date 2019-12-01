@@ -63,9 +63,9 @@ class Article(TranMarkdown, models.Model):
     def latest_articles(cls):
         return cls.objects.all()[:5]
 
-    @classmethod
-    def hotest_articles(cls):
-        return cls.objects.order_by('-pv')[:5]
+    # @classmethod
+    # def hotest_articles(cls):
+    #     return cls.objects.order_by('-pv')[:5]
 
     @property
     def get_index(self):
@@ -121,11 +121,11 @@ class Article(TranMarkdown, models.Model):
 class SideBar(models.Model):
     """ 侧栏数据结构 """
     SIDEBAR_HTML = 1
-    SIDEBAR_HOTEST = 2
+    # SIDEBAR_HOTEST = 2
     SIDEBAR_LATEST = 3
     SIDEBAR_TYPE = (
         (SIDEBAR_HTML, "HTML"),
-        (SIDEBAR_HOTEST, "最热文章"),
+        # (SIDEBAR_HOTEST, "最热文章"),
         (SIDEBAR_LATEST, "最新文章"),
     )
 
@@ -147,11 +147,11 @@ class SideBar(models.Model):
         """
         if self.sidebar_type == self.SIDEBAR_HTML:
             result = mark_safe(self.content)
-        elif self.sidebar_type == self.SIDEBAR_HOTEST:
-            context = {
-                'articles': Article.hotest_articles()
-            }
-            result = render_to_string('content/articles_list_sidebar.html', context)
+        # elif self.sidebar_type == self.SIDEBAR_HOTEST:
+        #     context = {
+        #         'articles': Article.hotest_articles()
+        #     }
+        #     result = render_to_string('content/articles_list_sidebar.html', context)
         elif self.sidebar_type == self.SIDEBAR_LATEST:
             context = {
                 'articles': Article.latest_articles()
@@ -172,11 +172,11 @@ class SideBar(models.Model):
 class IndexContent(models.Model):
     """ 首页内容区数据结构 """
     CONTENT_HTML = 1
-    CONTENT_HOTEST = 2
+    # CONTENT_HOTEST = 2
     CONTENT_LATEST = 3
     CONTENT_TYPE = (
         (CONTENT_HTML, "HTML"),
-        (CONTENT_HOTEST, "最热文章"),
+        # (CONTENT_HOTEST, "最热文章"),
         (CONTENT_LATEST, "最新文章"),
     )
 
@@ -199,13 +199,13 @@ class IndexContent(models.Model):
         """
         if self.content_type == self.CONTENT_HTML:
             result = mark_safe(self.content)
-        elif self.content_type == self.CONTENT_HOTEST:
-            context = {
-                'title': self.title,
-                'show_title': self.does_show_title,
-                'articles': Article.hotest_articles()
-            }
-            result = render_to_string('content/articles_list_index.html', context)
+        # elif self.content_type == self.CONTENT_HOTEST:
+        #     context = {
+        #         'title': self.title,
+        #         'show_title': self.does_show_title,
+        #         'articles': Article.hotest_articles()
+        #     }
+        #     result = render_to_string('content/articles_list_index.html', context)
         elif self.content_type == self.CONTENT_LATEST:
             context = {
                 'title': self.title,
