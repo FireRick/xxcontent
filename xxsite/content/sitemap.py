@@ -42,7 +42,7 @@ class CategorySitemap(Sitemap):
         return Category.objects.all()
 
     def lastmod(self, obj):
-        return obj.update_time
+        return Article.objects.order_by('-update_time')[0].update_time
 
     def location(self, obj):
         return reverse('category', args=[obj.pk])
@@ -56,7 +56,7 @@ class TagSitemap(Sitemap):
         return Tag.objects.all()
 
     def lastmod(self, obj):
-        return obj.update_time
+        return Article.objects.order_by('-update_time')[0].update_time
 
     def location(self, obj):
         return reverse('tag', args=[obj.pk])
@@ -67,11 +67,10 @@ class IndexSitemap(Sitemap):
     priority = 1.0
 
     def items(self):
-        # 这里是为了获取最新文章的时间作为首页的最后修改时间
-        return [Article.objects.order_by('-update_time')[0]]  # 中括号包裹，形成序列，否则 len() 调用会出错
+        return ['index']  # 只要是一个 len=1 的列表即可，与内容无关
 
     def lastmod(self, obj):
-        return obj.update_time
+        return Article.objects.order_by('-update_time')[0].update_time
 
     def location(self, obj):
         return reverse('index')
