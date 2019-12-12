@@ -116,8 +116,6 @@ def stat(request):
     """
     暂时用于 web 端查看访问数据
     """
-    import time
-    time.sleep(3)
     rd = redis.Redis(host='localhost', port=6379, db=0)
     today_str = str(date.today())
     uv_key_day = 'uv:' + today_str
