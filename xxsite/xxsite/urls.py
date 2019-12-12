@@ -33,10 +33,10 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('stat/', stat, name='stat'),
     path('', cache_page(60)(IndexView.as_view()), name='index'),
-    path('article/<pk>/', cache_page(1200)(ArticleView.as_view()), name='article'),
+    path('article/<pk>/', cache_page(300)(ArticleView.as_view()), name='article'),
     path('category/<int:cat_id>/', cache_page(300)(CategoryView.as_view()), name='category'),
     path('tag/<int:tag_id>/', cache_page(300)(TagView.as_view()), name='tag'),
-    path('<link_word>/', cache_page(1200)(PageView.as_view()), name='page'),
+    path('<link_word>/', cache_page(300)(PageView.as_view()), name='page'),
     path(
         'sitemap.xml', cache_page(60)(sitemap), {
         'sitemaps': {
