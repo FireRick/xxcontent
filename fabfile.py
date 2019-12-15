@@ -13,7 +13,7 @@ from invoke import task
 PROJECT_NAME = 'xxsite'
 SETTINGS = 'xxsite/xxsite/settings.py'
 DEV_VENV = '/home/fire/env_xxsite'
-DEPLOY_PATH = '/home/fire/xxsite'
+DEPLOY_PATH = '/home/ubuntu/xxsite'
 VENV_ACTIVATE = os.path.join(DEPLOY_PATH, 'bin', 'activate')
 # PYPI_HOST = '127.0.0.1'
 # PYPI_INDEX = 'http://127.0.0.1:8080/simple'
@@ -38,7 +38,7 @@ def build(c, version=None, bytescode=False):
     result = c.run('echo $SHELL', hide=True)
     user_shell = result.stdout.strip('\n')
 
-    c.run(DEV_VENV + '/bin/python setup.py bdist_wheel', warn=True, shell=user_shell)
+    c.run(DEV_VENV + '/bin/python setup.py clean --all bdist_wheel', warn=True, shell=user_shell)
 
     _version.revert()
 
@@ -74,10 +74,10 @@ def set_environ(c):
     secret_key = ''.join(random.choices('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)',k=50))
     db_password = ''.join(random.choices('abcdefghijklmnopqrstuvwxyz0123456789!@#$%^&*(-_=+)',k=10))
     command = '\n'.join([
-        'XX_SECRET_KEY=%s' % secret_key,
-        'XX_DB_PASSWORD=%s' % db_password,
+        'XX_SECRET_KEY="%s"' % secret_key,
+        'XX_DB_PASSWORD="%s"' % db_password,
     ])
-    c.run('echo -e "%s" |sudo tee -a /etc/environment' % command, pty=True)
+    c.run("echo -e '%s' |sudo tee -a /etc/environment" % command, pty=True)
 
 
 @task
@@ -166,5 +166,5 @@ def _upload_conf(c, deploy_path):
 def _reload_supervisoird(c, deploy_path):
     _upload_conf(c, deploy_path)
     c.run('supervisorctl -c %s/supervisord.conf shutdown' % deploy_path, warn=True)
-    time.sleep(0.5) # 关闭需要时间，过快会导致出现端口仍在占用的错误
+    time.sleep(2) # 关闭需要时间，过快会导致出现端口仍在占用的错误
     c.run('supervisord -c %s/supervisord.conf' % deploy_path)
