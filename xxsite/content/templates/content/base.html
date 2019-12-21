@@ -90,8 +90,10 @@
                 <li><a href="{{ link.url }}" {% if not link.does_follow %}rel="nofollow"{% endif %}>{{ link.anchor_word }}</a></li>
                 {% endfor %}
             </ul>
-            <p><a href="{{ site_url }}">{{ site_name }}</a> &copy; 2019</p>
-            <p><a href="http://beian.miitbeian.gov.cn">{{ beian }}</a></p>
+            <div class="text-center">
+                <p><a href="{{ site_url }}">{{ site_name }}</a> &copy; 2019</p>
+                <p><a href="http://beian.miit.gov.cn/">{{ beian }}</a></p>
+            </div>
         </div>
     </footer>
     <script src="https://cdn.jsdelivr.net/npm/jquery@1.12.4/dist/jquery.min.js"></script>
