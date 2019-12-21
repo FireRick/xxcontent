@@ -13,7 +13,7 @@ setup(
     package_dir={'': 'xxsite'},
     include_package_data = True,
     install_requires=[
-        'django==2.2.6',
+        'django==2.2.8',
         'gunicorn==20.0.0',
         'supervisor==4.1.0',
         'mysqlclient==1.4.4',
