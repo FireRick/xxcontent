@@ -27,18 +27,20 @@ from content.sitemap import (
     ArticleSitemap, PageSitemap, CategorySitemap,
     IndexSitemap, TagSitemap,
 )
+from content.views import upload_md_files
 
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('stat/', stat, name='stat'),
-    path('', cache_page(60)(IndexView.as_view()), name='index'),
-    path('article/<pk>/', cache_page(300)(ArticleView.as_view()), name='article'),
-    path('category/<int:cat_id>/', cache_page(300)(CategoryView.as_view()), name='category'),
-    path('tag/<int:tag_id>/', cache_page(300)(TagView.as_view()), name='tag'),
-    path('<link_word>/', cache_page(300)(PageView.as_view()), name='page'),
+    path('', cache_page(30)(IndexView.as_view()), name='index'),
+    path('article/<pk>/', cache_page(30)(ArticleView.as_view()), name='article'),
+    path('category/<int:cat_id>/', cache_page(30)(CategoryView.as_view()), name='category'),
+    path('tag/<int:tag_id>/', cache_page(30)(TagView.as_view()), name='tag'),
+    path('uploadmd/', upload_md_files, name='upload'),
+    path('<link_word>/', cache_page(30)(PageView.as_view()), name='page'),
     path(
-        'sitemap.xml', cache_page(60)(sitemap), {
+        'sitemap.xml', cache_page(30)(sitemap), {
         'sitemaps': {
             'index': IndexSitemap,
             'category': CategorySitemap,

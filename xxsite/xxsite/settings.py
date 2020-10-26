@@ -7,20 +7,33 @@ VERSION = '${version}'
 DEBUG = False
 
 
-# 站点信息(需要根据不同的网站来填入)
+# 解析 ~/.xxsite/xxsite.conf 中的站点信息
+conf_file = os.path.join(os.environ['HOME'], '.xxsite/xxsite.conf')
+conf = {}
+with open(conf_file, 'r') as f:
+    for line in f:
+        line = line.strip()
+        # if line is not blank or comment, enter
+        if line and line[0] != '#':
+                split_res = line.split('=')
+                if len(split_res) == 2:
+                    conf[split_res[0].strip()] = split_res[1].strip()
+    if len(conf) != 7:
+        raise ValueError("Invalid format in xxsite.conf.")
 
-SITE_DOMAIN = 'www.example.com'
+# get information about site
+SITE_DOMAIN = conf['SITE_DOMAIN']
 SITE_URL = 'http://' + SITE_DOMAIN
-SITE_NAME = '网站标题'
-SITE_DESCRIPTION = '网站内容简介'
-BEIAN = '备案号'
-CDN = ''
+SITE_NAME = conf['SITE_NAME']
+SITE_DESCRIPTION = conf['SITE_DESCRIPTION']
+BEIAN = conf['BEIAN']
+CDN = conf['CDN']
 
 
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 
-SECRET_KEY = os.environ['XX_SECRET_KEY']
+SECRET_KEY = conf['SECRET_KEY']
 
 
 DATABASES = {
@@ -28,11 +41,14 @@ DATABASES = {
         'ENGINE': 'django.db.backends.mysql',
         'NAME': 'xxcontent',
         'USER': 'fire',
-        'PASSWORD': os.environ['XX_DB_PASSWORD'],
+        'PASSWORD': conf['DB_PASSWORD'],
         'HOST': '127.0.0.1',
         'PORT': 3306,
         'CONN_MAX_AGE': 5 * 60,
         'OPTIONS': {'charset': 'utf8'},
+        'TEST': {
+            'CHARSET': 'utf8',
+        }
     }
 }
 
@@ -41,7 +57,7 @@ CACHES = {
     'default': {
         'BACKEND': 'django_redis.cache.RedisCache',
         'LOCATION': 'redis://127.0.0.1:6379/1',
-        'TIMEOUT': 300,
+        'TIMEOUT': 30,
         # 'KEY_FUNCTION': 'content.cache.make_key',
         'OPTIONS': {
             'CLIENT_CLASS': 'django_redis.client.DefaultClient',

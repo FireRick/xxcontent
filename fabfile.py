@@ -12,11 +12,9 @@ from invoke import task
 
 PROJECT_NAME = 'xxsite'
 SETTINGS = 'xxsite/xxsite/settings.py'
-DEV_VENV = '/home/fire/env_xxsite'
+DEV_VENV = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'env')
 DEPLOY_PATH = '/home/ubuntu/xxsite'
 VENV_ACTIVATE = os.path.join(DEPLOY_PATH, 'bin', 'activate')
-# PYPI_HOST = '127.0.0.1'
-# PYPI_INDEX = 'http://127.0.0.1:8080/simple'
 PROCESS_COUNT = 2
 PORT_PREFIX = 909
 

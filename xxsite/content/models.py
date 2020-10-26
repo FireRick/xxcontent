@@ -16,7 +16,7 @@ class TranMarkdown:
 
 class Category(TranMarkdown, models.Model):
     """ 分类数据结构 """
-    name = models.CharField(max_length=50, verbose_name="名称")
+    name = models.CharField(max_length=50, unique=True, verbose_name="名称")
     content = models.TextField(verbose_name="分类描述正文", help_text="用 markdown 书写")
     content_html = models.TextField(
         verbose_name="正文html代码", blank=True, editable=False)
@@ -32,7 +32,7 @@ class Category(TranMarkdown, models.Model):
 
 class Tag(TranMarkdown, models.Model):
     """ 标签数据结构 """
-    name = models.CharField(max_length=50, verbose_name="名称")
+    name = models.CharField(max_length=50, unique=True, verbose_name="名称")
     content = models.TextField(verbose_name="标签描述正文", help_text="用 markdown 书写")
     content_html = models.TextField(
         verbose_name="正文html代码", blank=True, editable=False)
@@ -48,7 +48,7 @@ class Tag(TranMarkdown, models.Model):
 
 class Article(TranMarkdown, models.Model):
     """ 文章数据结构 """
-    title = models.CharField(max_length=50, verbose_name="标题")
+    title = models.CharField(max_length=50, unique=True, verbose_name="标题")
     author = models.CharField(max_length=10, verbose_name="作者")
     create_time = models.DateTimeField(verbose_name="创建时间")
     update_time = models.DateTimeField(verbose_name="更新时间")

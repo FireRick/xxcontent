@@ -1,0 +1,16 @@
+{% extends "content/base.html" %}
+
+{% block title %}上传 md 文件{% endblock title %}
+
+{% block breadcrumb %}
+<ol class="breadcrumb">
+    <span>当前位置：</span>
+    <li class="active">上传 md 文件</li>
+</ol>  
+{% endblock %}
+
+{% block main %}
+
+<h3>{{ filename }} 上传失败！</h3>
+<p><a href="{% url 'upload' %}">继续上传</a></p>
+{% endblock main %}

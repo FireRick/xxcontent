@@ -7,4 +7,3 @@ static_files/
 build/
 dist/
 *.egg-info/
-

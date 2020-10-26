@@ -2,17 +2,20 @@ import redis
 
 from datetime import date
 
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render
 from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.views.generic.list import ListView
 from django.core.cache import cache
 from django.http import HttpResponse
+from django.contrib.auth.decorators import login_required
 
 from .models import (
     Article, IndexContent, Category,
     Tag, Page, SideBar, Link,
 )
+from .forms import UploadMdFileForm
+from .upload import handle_uploaded_files
 from xxsite.settings import SITE_URL, SITE_NAME, SITE_DESCRIPTION, BEIAN
 
 # Create your views here.
@@ -112,6 +115,7 @@ class PageView(GenericViewMixin, DetailView):
     pk_url_kwarg = "link_word"
     context_object_name = "page"
 
+@login_required(login_url='/admin/login/')
 def stat(request):
     """
     暂时用于 web 端查看访问数据
@@ -146,3 +150,22 @@ def stat(request):
     html = "<p>日期：%s</p><p>PV(今日/总)：%s/%s</p><p>UV(今日/总)：%s/%s</p>" % (
         today_str, pv_day, pv_all, uv_day, uv_all)
     return HttpResponse(html)
+
+@login_required(login_url='/admin/login/')
+def upload_md_files(request):
+    """ Upload md files, and handle them as new article or modification.
+    Support single markdown file and markdown files in a zip file.
+    """
+    if request.method == 'POST':
+        form = UploadMdFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            filename = request.FILES['file'].name
+            if handle_uploaded_files(request.FILES['file']) == 0:
+                return render(request, 'content/upload_sucess.html',
+                            {'filename': filename})
+            else:
+                return render(request, 'content/upload_fail.html',
+                            {'filename': filename})
+    else:
+        form = UploadMdFileForm()
+    return render(request, 'content/upload_md_files.html', {'form': form})
