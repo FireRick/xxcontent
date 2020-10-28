@@ -4,7 +4,7 @@ import os
 VERSION = '${version}'
 
 
-DEBUG = False
+DEBUG = True
 
 
 # 解析 ~/.xxsite/xxsite.conf 中的站点信息
