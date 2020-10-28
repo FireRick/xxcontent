@@ -4,6 +4,10 @@ body {
     color: #1a1a1a;
     background-color: #f6f6f6;
 }
+h1, h2, h3 {
+    margin-top: 40px;
+    margin-bottom: 30px;
+}
 .m-header {
     font-size: 24px;
     position: relative;
@@ -43,7 +47,7 @@ body {
 }
 .entry-content, .author, .post-navigation, .m-sidebar>div+div,
 .article-list, .entry-tags {
-    border-top: 1px solid #f6f6f6;
+    border-top: 1px solid #463f3f;
 }
 .entry-header, .entry-content, .author, .post-navigation,
 .article-list, .entry-tags {
