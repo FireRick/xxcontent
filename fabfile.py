@@ -23,6 +23,7 @@ PORT_PREFIX = 909
 def build(c, version=None, bytescode=False):
     """ 本地打包
         1. 配置版本号
+        1.1. settings.py 中的 Debug 设为 False
         2. 打包
     Usage:
         fab build --version 1.4
@@ -32,6 +33,11 @@ def build(c, version=None, bytescode=False):
 
     _version = _Version()
     _version.set(['setup.py', SETTINGS], version)
+
+    # 如果 settings 中 Debug=True 则改为 False。
+    with open(SETTINGS, 'r') as f:
+        original_content = f.read()
+        new_content = original_content.replace('DEBUG = True', 'DEBUG = False')
 
     result = c.run('echo $SHELL', hide=True)
     user_shell = result.stdout.strip('\n')
@@ -108,7 +114,7 @@ class _Version:
     def replace(self, f, version):
         with open(f, 'r') as fd:
             origin_content = fd.read()
-            content = origin_content.replace('${version}', version)
+            content = origin_content.replace('${version}', version).replace('DEBUG = True', 'DEBUG = False')
 
         with open(f, 'w') as fd:
             fd.write(content)
