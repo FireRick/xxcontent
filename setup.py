@@ -22,7 +22,7 @@ setup(
         'hiredis==0.2.0',
         'redis==2.10.6',
         # debug
-        'django-debug-toolbar==1.9.1',
+        'django-debug-toolbar==1.11.1',
         'Pympler==0.5',
     ],
     scripts=[
