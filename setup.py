@@ -18,7 +18,7 @@ setup(
         'supervisor==4.1.0',
         'mysqlclient==1.4.4',
         'django-redis==4.9.0',
-        'mistune==0.8.4',
+        'mistune==2.0.3',
         'hiredis==0.2.0',
         'redis==2.10.6',
         # debug
